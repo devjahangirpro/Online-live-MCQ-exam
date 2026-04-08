@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Select Subject{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <h1 class="h1">বিষয়ভিত্তিক পরীক্ষা দিন</h1>
+    <p class="muted">
+     You can now start exam by selecting a subject.
+    </p>
+  </div>
+
+  {% if not subjects %}
+    <div class="card">
+      <p>এখনও কোনো Subject যোগ করা হয়নি। </p>
+    </div>
+  {% else %}
+    <div class="subjects-grid">
+      {% for subject in subjects %}
+        <article class="card">
+          <h3 class="h3">{{ subject.name }}</h3>
+          <p class="muted">{{ subject.description|default:"এই বিষয়ের পরীক্ষা দিন।" }}</p>
+          <p class="muted">প্রশ্ন সংখ্যা: {{ subject.questions.count }}</p>
+          <div class="actions">
+            <a class="btn" href="{% url 'exam:take_exam' subject.id %}">এই বিষয়ের পরীক্ষা দিন</a>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endblock %}
+

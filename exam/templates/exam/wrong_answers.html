@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}Wrong Answers{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <h1 class="h1">Wrong Answers Review</h1>
+    <p class="muted">
+      Attempt #{{ attempt.id }} · Only questions you answered wrong are shown. Correct answers are highlighted in green.
+    </p>
+  </div>
+
+  {% if not wrong_answers %}
+    <div class="card">
+      <p class="good">Nice! You had no wrong answers in this attempt.</p>
+      <div class="actions">
+        <a class="btn" href="{% if attempt.subject %}{% url 'exam:take_exam' attempt.subject.id %}{% else %}{% url 'exam:home' %}{% endif %}">Take Exam Again</a>
+      </div>
+    </div>
+  {% else %}
+    <div class="stack">
+      {% for a in wrong_answers %}
+        {% with q=a.question %}
+          <section class="card">
+            <div class="qhead">
+              <div class="qno">Q{{ forloop.counter }}</div>
+              <div class="qtext">{{ q.question_text }}</div>
+            </div>
+
+            <div class="options">
+              <div class="optline {% if q.correct_option == 1 %}is-correct{% endif %}{% if a.selected_option == 1 and q.correct_option != 1 %} is-wrong{% endif %}">
+                <span class="optbadge">A</span>
+                <span>{{ q.option_1 }}</span>
+              </div>
+              <div class="optline {% if q.correct_option == 2 %}is-correct{% endif %}{% if a.selected_option == 2 and q.correct_option != 2 %} is-wrong{% endif %}">
+                <span class="optbadge">B</span>
+                <span>{{ q.option_2 }}</span>
+              </div>
+              <div class="optline {% if q.correct_option == 3 %}is-correct{% endif %}{% if a.selected_option == 3 and q.correct_option != 3 %} is-wrong{% endif %}">
+                <span class="optbadge">C</span>
+                <span>{{ q.option_3 }}</span>
+              </div>
+              <div class="optline {% if q.correct_option == 4 %}is-correct{% endif %}{% if a.selected_option == 4 and q.correct_option != 4 %} is-wrong{% endif %}">
+                <span class="optbadge">D</span>
+                <span>{{ q.option_4 }}</span>
+              </div>
+            </div>
+
+            <div class="note">
+              <div><span class="muted">Your answer:</span> {{ a.selected_answer_text|default_if_none:"Not answered" }}</div>
+              <div><span class="muted">Correct answer:</span> <span class="good">{{ q.correct_answer_text }}</span></div>
+            </div>
+          </section>
+        {% endwith %}
+      {% endfor %}
+    </div>
+
+    <div class="card actions">
+      <a class="btn btn--secondary" href="{% url 'exam:results' attempt.id %}">Back to Results</a>
+      <a class="btn" href="{% if attempt.subject %}{% url 'exam:take_exam' attempt.subject.id %}{% else %}{% url 'exam:home' %}{% endif %}">Take Exam Again</a>
+    </div>
+  {% endif %}
+{% endblock %}
+

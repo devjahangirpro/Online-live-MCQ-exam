@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ subject.name }} Exam{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <h1 class="h1">{{ subject.name }} - পরীক্ষা</h1>
+    <p class="muted">
+      You can skip questions and still submit. You can take the exam multiple times.
+    </p>
+  </div>
+
+  {% if not questions %}
+    <div class="card">
+      <p>No questions found.</p>
+    </div>
+  {% else %}
+    <form method="post" class="stack">
+      {% csrf_token %}
+
+      {% for q in questions %}
+        <section class="card">
+          <div class="qhead">
+            <div class="qno">Q{{ forloop.counter }}</div>
+            <div class="qtext">{{ q.question_text }}</div>
+          </div>
+
+          <div class="options">
+            <label class="opt">
+              <input type="radio" name="q_{{ q.id }}" value="1" />
+              <span>{{ q.option_1 }}</span>
+            </label>
+            <label class="opt">
+              <input type="radio" name="q_{{ q.id }}" value="2" />
+              <span>{{ q.option_2 }}</span>
+            </label>
+            <label class="opt">
+              <input type="radio" name="q_{{ q.id }}" value="3" />
+              <span>{{ q.option_3 }}</span>
+            </label>
+            <label class="opt">
+              <input type="radio" name="q_{{ q.id }}" value="4" />
+              <span>{{ q.option_4 }}</span>
+            </label>
+          </div>
+        </section>
+      {% endfor %}
+
+      <div class="card actions">
+        <button class="btn" type="submit">Submit Exam</button>
+      </div>
+    </form>
+  {% endif %}
+{% endblock %}
+

@@ -1,0 +1,31 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}Online Exam{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'exam/styles.css' %}" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container topbar__inner">
+        <a class="brand" href="{% url 'exam:home' %}">Online Exam</a>
+        <nav class="nav">
+          <a href="{% url 'exam:home' %}">Subjects</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+      <div class="container footer__inner">
+        <span>Bangladeshi General Knowledge MCQ</span>
+      </div>
+    </footer>
+  </body>
+</html>
+

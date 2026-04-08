@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Results{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <h1 class="h1">Exam Results</h1>
+    <p class="muted">Subject: {{ subject.name|default:"N/A" }} · Attempt #{{ attempt.id }} · {{ attempt.created_at }}</p>
+  </div>
+
+  <div class="grid">
+    <div class="card stat">
+      <div class="stat__label">Total Questions</div>
+      <div class="stat__value">{{ total_questions }}</div>
+    </div>
+    <div class="card stat">
+      <div class="stat__label">Answered</div>
+      <div class="stat__value">{{ answered }}</div>
+    </div>
+    <div class="card stat">
+      <div class="stat__label">Not Answered</div>
+      <div class="stat__value bad">{{ unanswered }}</div>
+    </div>
+    <div class="card stat">
+      <div class="stat__label">Correct Answers</div>
+      <div class="stat__value good">{{ correct }}</div>
+    </div>
+    <div class="card stat">
+      <div class="stat__label">Wrong Answers</div>
+      <div class="stat__value bad">{{ wrong }}</div>
+    </div>
+  </div>
+
+  <div class="card actions">
+    <a class="btn btn--secondary" href="{% if subject %}{% url 'exam:take_exam' subject.id %}{% else %}{% url 'exam:home' %}{% endif %}">Take Exam Again</a>
+    <a class="btn" href="{% url 'exam:wrong_answers' attempt.id %}">View Wrong Answers</a>
+    <a class="btn" href="{% url 'exam:unanswered_answers' attempt.id %}">View Not Answered</a>
+  </div>
+{% endblock %}
+
