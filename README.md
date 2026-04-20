@@ -3,6 +3,7 @@
 A dynamic and user-friendly MCQ (Multiple Choice Question) Exam System built with Django.
 This project allows users to participate in online exams, answer multiple-choice questions, and view results instantly.
 
+![Dashboard Preview](images/web_app_mcq_exam.png)
 🚀 Features
 📝 Multiple Choice Questions (MCQ) system
 ⚡ Instant result calculation
